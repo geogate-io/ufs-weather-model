@@ -105,6 +105,10 @@
       use FRONT_GOCART,     only: GOCART_SS  => SetServices, &
                                   GOCART_SV  => SetVM
 #endif
+  ! - Handle build time GEOGATE options:
+#ifdef FRONT_GEOGATE
+      use FRONT_GEOGATE,    only: GEOGATE_SS => SetServices
+#endif
   ! - Mediator
 #ifdef FRONT_CMEPS
       use MED,              only: MED_SS     => SetServices, &
@@ -549,6 +553,14 @@
           if (trim(model) == "gocart") then
             call NUOPC_DriverAddComp(driver, trim(prefix), GOCART_SS, &
               GOCART_SV, info=info, petList=petList, comp=comp, rc=rc)
+            if (ChkErr(rc,__LINE__,u_FILE_u)) return
+            found_comp = .true.
+          end if
+#endif
+#ifdef FRONT_GEOGATE
+          if (trim(model) == "geogate") then
+            call NUOPC_DriverAddComp(driver, trim(prefix), GEOGATE_SS, &
+              petList=petList, comp=comp, rc=rc)
             if (ChkErr(rc,__LINE__,u_FILE_u)) return
             found_comp = .true.
           end if

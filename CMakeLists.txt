@@ -36,6 +36,7 @@ set(CMEPS           OFF CACHE BOOL "Enable CMEPS")
 set(CDEPS           OFF CACHE BOOL "Enable CDEPS")
 set(NOAHMP          OFF CACHE BOOL "Enable NOAHMP")
 set(FIRE_BEHAVIOR   OFF CACHE BOOL "Enable Fire Behavior")
+set(GEOGATE         OFF CACHE BOOL "Enable GeoGate")
 
 # Configure selected application specific components
 message("")
@@ -56,6 +57,7 @@ message("CDEPS ............ ${CDEPS}")
 message("CMEPS ............ ${CMEPS}")
 message("NOAHMP ........... ${NOAHMP}")
 message("FIRE_BEHAVIOR .... ${FIRE_BEHAVIOR}")
+message("GEOGATE .......... ${GEOGATE}")
 
 ###############################################################################
 ### Build Options
@@ -292,6 +294,13 @@ if(FIRE_BEHAVIOR)
 endif()
 
 ###############################################################################
+### Co-processing [GEOGATE]
+###############################################################################
+if(GEOGATE)
+  add_subdirectory(GeoGate/src)
+endif()
+
+###############################################################################
 ### UFS Library
 ###############################################################################
 add_library(ufs driver/UFSDriver.F90)
@@ -380,6 +389,12 @@ if(FIRE_BEHAVIOR)
   add_dependencies(ufs fire_behavior_nuopc)
   list(APPEND _ufs_defs_private FRONT_FIRE_BEHAVIOR=fire_behavior_nuopc)
   list(APPEND _ufs_libs_public fire_behavior_nuopc)
+endif()
+
+if(GEOGATE)
+  add_dependencies(ufs geogate)
+  list(APPEND _ufs_defs_private FRONT_GEOGATE=geogate_nuopc)
+  list(APPEND _ufs_libs_public geogate)
 endif()
 
 target_compile_definitions(ufs PRIVATE "${_ufs_defs_private}")

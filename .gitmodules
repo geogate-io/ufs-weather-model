@@ -54,3 +54,7 @@
   path = fire_behavior
   url = https://github.com/NOAA-EMC/fire_behavior
   branch = emc/develop
+[submodule "GeoGate"]
+  path = GeoGate
+  url = https://github.com/geogate-io/GeoGate
+  branch = main
