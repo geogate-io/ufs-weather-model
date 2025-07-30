@@ -20,6 +20,14 @@ load(pathJoin("cmake", cmake_ver))
 stack_python_ver=os.getenv("stack_python_ver") or "3.11.7"
 load(pathJoin("stack-python", stack_python_ver))
 
+-- chained environment for geogate
+prepend_path("MODULEPATH", "/glade/work/turuncu/ML/ufs/spack-stack-1.9.2/envs/pv_${backend}_intel/install/modulefiles/oneapi/2024.2.1")
+prepend_path("MODULEPATH", "/glade/work/turuncu/ML/ufs/spack-stack-1.9.2/envs/pv_${backend}_intel/install/modulefiles/cray-mpich/8.1.29-4natrhl/oneapi/2024.2.1")
+load("conduit/0.9.2")
+load("libcatalyst/2.0.0")
+load("paraview/5.13.1")
+load(pathJoin("stack-oneapi", stack_intel_ver))
+
 setenv("CMAKE_Platform", "derecho.intel")
 load("ufs-weather-model-env")
 load("sp/2.5.0")
